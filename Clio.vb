@@ -89,32 +89,67 @@ Sub Clio_typographie()
         End With
         .Execute Replace:=wdReplaceAll
     End With
-    
-    ' Surlignement tirets cadratins et demi-cadratins
-    With Selection.Find
-        .ClearFormatting
-        .Text = "([—–])"
-        .Wrap = wdFindContinue
-        With .Replacement
-            .Text = "\1"
-            .Highlight = True
+            ' Sauf si précédé de guillemets français ouvrant
+            With Selection.Find
+                .Text = "«^s([0-9a-zA-Z])"
+                .Wrap = wdFindContinue
+                .MatchWildcards = True
+                With .Replacement
+                    .Text = ""
+                    .Highlight = False
+                End With
+            .Execute Replace:=wdReplaceAll
+            End With
+            ' Sauf si précédé des abréviations n. p. t. v. + insécable
+            With Selection.Find
+                .ClearFormatting
+                .Text = "(<[nptv]).^s([1-9a-zA-Z])"
+                .Wrap = wdFindContinue
+                .MatchWildcards = True
+                With .Replacement
+                    .Text = ""
+                    .Highlight = False
+                End With
+            .Execute Replace:=wdReplaceAll
+            End With
+            'Sauf si suit une initiale majuscule
+             With Selection.Find
+                .ClearFormatting
+                .Text = "([A-ZÉ])^s.([A-ZÉ])"
+                .Wrap = wdFindContinue
+                .MatchWildcards = True
+                With .Replacement
+                    .Text = ""
+                    .Highlight = False
+                End With
+                .Execute Replace:=wdReplaceAll
+            End With
+                    
+        ' Surligner tirets cadratins et demi-cadratins
+        With Selection.Find
+            .ClearFormatting
+            .Text = "([—–])"
+            .Wrap = wdFindContinue
+            With .Replacement
+                .Text = "\1"
+                .Highlight = True
+            End With
+            .Execute Replace:=wdReplaceAll
         End With
-        .Execute Replace:=wdReplaceAll
-    End With
-    
+        
         ' Surligner "Age" - pas de correction automatique à cause des textes en anglais
-    With Selection.Find
-        .ClearFormatting
-        .Text = "Age"
-        .Wrap = wdFindContinue
-        .MatchCase = True
-        .MatchWildcards = False
-        With .Replacement
-            .Text = ""
-            .Highlight = True
+        With Selection.Find
+            .ClearFormatting
+            .Text = "Age"
+            .Wrap = wdFindContinue
+            .MatchCase = True
+            .MatchWildcards = False
+            With .Replacement
+                .Text = ""
+                .Highlight = True
+            End With
+            .Execute Replace:=wdReplaceAll
         End With
-        .Execute Replace:=wdReplaceAll
-    End With
     
     ' Gestions des insécables après des abréviations
         ' Espaces insécables après initiale majuscule
@@ -387,8 +422,22 @@ End Sub
 
 Sub Clio_regnes()
 ' Permet d'ajouter une espace insécable entre le nom d'un souverain et son rang dynastique
+' Gère actuellement les souverains suivants (ordre alphabétique) : Catherine, Charles, Édouard,
+' Edward, François, Henri, Jean, Jules, Léon, Louis, Napoléon, Richard. 
     Selection.Find.ClearFormatting
     Selection.Find.Replacement.ClearFormatting
+        'Catherine
+            With Selection.Find
+            .ClearFormatting
+            .Text = "(Catherine) ([IVX])"
+            .Wrap = wdFindContinue
+            .MatchWildcards = True
+            With .Replacement
+                .Text = "\1^s\2"
+                .Highlight = True
+                End With
+            .Execute Replace:=wdReplaceAll
+            End With
         'Charles
             With Selection.Find
             .ClearFormatting
@@ -424,6 +473,18 @@ Sub Clio_regnes()
                 .Highlight = True
                 End With
             .Execute Replace:=wdReplaceAll
+        'François
+            With Selection.Find
+            .ClearFormatting
+            .Text = "(François) ([IVX])"
+            .Wrap = wdFindContinue
+            .MatchWildcards = True
+            With .Replacement
+                .Text = "\1^s\2"
+                .Highlight = True
+                End With
+            .Execute Replace:=wdReplaceAll
+            End With
         'Henri
             With Selection.Find
             .ClearFormatting
@@ -440,6 +501,30 @@ Sub Clio_regnes()
             With Selection.Find
             .ClearFormatting
             .Text = "(Jean) ([IVX])"
+            .Wrap = wdFindContinue
+            .MatchWildcards = True
+            With .Replacement
+                .Text = "\1^s\2"
+                .Highlight = True
+                End With
+            .Execute Replace:=wdReplaceAll
+            End With
+        'Jules
+            With Selection.Find
+            .ClearFormatting
+            .Text = "(Jules) ([IVX])"
+            .Wrap = wdFindContinue
+            .MatchWildcards = True
+            With .Replacement
+                .Text = "\1^s\2"
+                .Highlight = True
+                End With
+            .Execute Replace:=wdReplaceAll
+            End With
+        'Léon
+            With Selection.Find
+            .ClearFormatting
+            .Text = "(Léon) ([IVX])"
             .Wrap = wdFindContinue
             .MatchWildcards = True
             With .Replacement
@@ -505,28 +590,40 @@ Sub Clio_numbers()
     Selection.Find.ClearFormatting
     Selection.Find.Replacement.ClearFormatting
     Selection.Find.Replacement.Highlight = True
-    With Selection.Find
-        .Text = "^#"
-        .MatchWildcards = False
-        .Replacement.Text = ""
-        .Forward = True
-        .Wrap = wdFindContinue
-        .MatchWildcards = False
-   End With
-    Selection.Find.Execute Replace:=wdReplaceAll
-
-    'Nettoyer en partant
+    
+        ' Surligner tous les chiffres arabes
         With Selection.Find
-            .ClearFormatting
-            .Text = ""
+            .Text = "^#"
             .MatchWildcards = False
-            With .Replacement
-                .Text = ""
-                .ClearFormatting
-                .MatchWildcards = False
-            End With
+            .Replacement.Text = ""
+            .Forward = True
+            .Wrap = wdFindContinue
+            .MatchWildcards = False
         End With
+        Selection.Find.Execute Replace:=wdReplaceAll
 
+        ' Surligner les capitales utilisées pour les chiffres romains
+        With Selection.Find
+            .Text = "([CDILMVX])"
+            .Wrap = wdFindContinue
+            .MatchWildcards = True
+            With .Replacement
+                .Text = "\1"
+                .Highlight = True
+            End With
+        .Execute Replace:=wdReplaceAll
+        End With
+        
+        'Nettoyer en partant
+            With Selection.Find
+                .ClearFormatting
+                .Text = ""
+                .MatchWildcards = False
+                With .Replacement
+                    .Text = ""
+                    .ClearFormatting
+                End With
+            End With
 End Sub
 
 Sub Clio_nettoyage()
