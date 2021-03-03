@@ -1,4 +1,4 @@
-Sub Clio_typographie()
+Sub Clio_1_typographie()
 ' Gère les éléments suivants :
 ' 1. la normalisation de la typographie sur des erreurs communes ;
 ' 2. l'ajout de surlignement sur les éléments qui demandent une vérification humaine ;
@@ -405,7 +405,151 @@ Sub Clio_typographie()
         End With
         .Execute Replace:=wdReplaceAll
     End With
-    
+ 
+        ' Remplacement n° en no sup + insécable
+        With Selection.Find
+            .ClearFormatting
+            .Text = "n° "
+            .Wrap = wdFindContinue
+            .MatchWildcards = False
+            With .Replacement
+                .Text = "n°"
+                .Highlight = True
+            End With
+            .Execute Replace:=wdReplaceAll
+        End With
+            With Selection.Find
+            .ClearFormatting
+            .Text = "n°^s"
+            .Wrap = wdFindContinue
+            .MatchWildcards = False
+            With .Replacement
+                .Text = "n°"
+                .Highlight = True
+            End With
+            .Execute Replace:=wdReplaceAll
+        End With
+        With Selection.Find
+            .ClearFormatting
+            .Text = "n°"
+            .Wrap = wdFindContinue
+            .MatchWildcards = False
+            With .Replacement
+                .Text = "no "
+                .Highlight = True
+            End With
+            .Execute Replace:=wdReplaceAll
+        End With
+            With Selection.Find
+            .ClearFormatting
+            .Text = "<(no)([0-9])"
+            .Wrap = wdFindContinue
+            .MatchWildcards = True
+            With .Replacement
+                .Text = "\1 \2"
+                .Highlight = True
+            End With
+            .Execute Replace:=wdReplaceAll
+        End With
+        With Selection.Find
+            .ClearFormatting
+            .Text = "no "
+            .Wrap = wdFindContinue
+            .MatchWildcards = False
+            .Highlight = True
+            With .Replacement
+                .Text = "no^s"
+                .Highlight = True
+                .Font.Superscript = True
+            End With
+            .Execute Replace:=wdReplaceAll
+            .Replacement.ClearFormatting
+        End With
+        With Selection.Find
+            .ClearFormatting
+            .Text = "n"
+            .Wrap = wdFindContinue
+            .MatchWildcards = False
+            .Highlight = True
+            .Font.Superscript = True
+            With .Replacement
+                .Text = "n"
+                .Highlight = True
+                .Font.Superscript = False
+            End With
+            .Execute Replace:=wdReplaceAll
+            .Replacement.ClearFormatting
+        End With
+        With Selection.Find
+            .ClearFormatting
+            .Text = "^s"
+            .Wrap = wdFindContinue
+            .MatchWildcards = False
+            .Highlight = True
+            .Font.Superscript = True
+            With .Replacement
+                .Text = "^s"
+                .Font.Superscript = False
+                .Highlight = True
+            End With
+            .Execute Replace:=wdReplaceAll
+            .Replacement.ClearFormatting
+        End With
+        
+        'Idem, Id., Ibidem et Ibid. en italiques
+         With Selection.Find
+            .ClearFormatting
+            .Text = "Ibidem"
+            .Wrap = wdFindContinue
+            .MatchWildcards = False
+            .Font.Italic = False
+            With .Replacement
+                .Text = ""
+                .Font.Italic = True
+            End With
+            .Execute Replace:=wdReplaceAll
+            .Replacement.ClearFormatting
+        End With
+        With Selection.Find
+            .ClearFormatting
+            .Text = "Ibid."
+            .Wrap = wdFindContinue
+            .MatchWildcards = False
+            .Font.Italic = False
+            With .Replacement
+                .Text = ""
+                .Font.Italic = True
+            End With
+            .Execute Replace:=wdReplaceAll
+            .Replacement.ClearFormatting
+        End With
+        With Selection.Find
+            .ClearFormatting
+            .Text = "Idem"
+            .Wrap = wdFindContinue
+            .MatchWildcards = False
+            .Font.Italic = False
+            With .Replacement
+                .Text = ""
+                .Font.Italic = True
+            End With
+            .Execute Replace:=wdReplaceAll
+            .Replacement.ClearFormatting
+        End With
+                With Selection.Find
+            .ClearFormatting
+            .Text = "Id."
+            .Wrap = wdFindContinue
+            .MatchWildcards = False
+            .Font.Italic = False
+            With .Replacement
+                .Text = ""
+                .Font.Italic = True
+            End With
+            .Execute Replace:=wdReplaceAll
+            .Replacement.ClearFormatting
+        End With
+           
     'Nettoyer en partant
         With Selection.Find
             .ClearFormatting
@@ -414,14 +558,12 @@ Sub Clio_typographie()
             With .Replacement
                 .Text = ""
                 .ClearFormatting
-                .MatchWildcards = False
             End With
         End With
-
 End Sub
 
-Sub Clio_regnes()
-' Permet d'ajouter une espace insécable entre le nom d'un souverain et son rang dynastique
+Sub Clio_2_regnes()
+' Permet d'ajouter une espace insécable entre le nom d'un souverain et son numéro dynastique
 ' Gère actuellement les souverains suivants (ordre alphabétique) : Catherine, Charles, Édouard,
 ' Edward, François, Henri, Jean, Jules, Léon, Louis, Napoléon, Richard. 
     Selection.Find.ClearFormatting
@@ -578,13 +720,12 @@ Sub Clio_regnes()
             With .Replacement
                 .Text = ""
                 .ClearFormatting
-                .MatchWildcards = False
             End With
         End With
 
 End Sub
 
-Sub Clio_numbers()
+Sub Clio_3_numbers()
 ' Permet de surligner tous les nombres du document pour faciliter l'ajout manuel d'insécables :
 ' nombres longs, dates, etc.
     Selection.Find.ClearFormatting
@@ -626,7 +767,7 @@ Sub Clio_numbers()
             End With
 End Sub
 
-Sub Clio_nettoyage()
+Sub Clio_4_nettoyage()
 ' Supprime le surlignage dans le document
     Selection.Find.ClearFormatting
     Selection.Find.Highlight = True
@@ -649,7 +790,6 @@ Sub Clio_nettoyage()
             With .Replacement
                 .Text = ""
                 .ClearFormatting
-                .MatchWildcards = False
             End With
         End With
 End Sub
