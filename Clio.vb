@@ -5,6 +5,18 @@ Sub Clio_1_typographie()
 ' 3. l'ajout d'espaces insécables dans des expressions régulières - abréviations, bibliographie.
 
     ' Normalisation de la typographie
+        ' Supprimer deux marques de paragraphe successives
+    With Selection.Find
+        .ClearFormatting
+        .Text = "^p^p"
+        .Wrap = wdFindContinue
+        With .Replacement
+            .ClearFormatting
+            .Text = "^p"
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+        
         ' Remplacement faux points de suspension
     With Selection.Find
         .ClearFormatting
@@ -103,7 +115,7 @@ Sub Clio_1_typographie()
             ' Sauf si précédé des abréviations n. p. t. v. + insécable
             With Selection.Find
                 .ClearFormatting
-                .Text = "(<[nptv]).^s([1-9a-zA-Z])"
+                .Text = "(<[nptv]).^s([0-9a-zA-Z])"
                 .Wrap = wdFindContinue
                 .MatchWildcards = True
                 With .Replacement
@@ -165,6 +177,19 @@ Sub Clio_1_typographie()
         .Execute Replace:=wdReplaceAll
     End With
     
+        ' Espaces insécables après initiale + h + majuscule
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([A-Z]h). "
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1.^s"
+            .Highlight = False
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+        
         ' Ajout espaces et insécable entre n., p., t., v. et numéro ou lettre
     With Selection.Find
         .ClearFormatting
@@ -189,6 +214,54 @@ Sub Clio_1_typographie()
         .Execute Replace:=wdReplaceAll
     End With
     
+        ' Ajout espace et insécable entre abréviation art. et lettre ou numéro
+    With Selection.Find
+        .ClearFormatting
+        .Text = "<(art.)([0-9a-zA-Z])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1 \2"
+            .Highlight = False
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "<(art.) ([0-9a-zA-Z])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = False
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+
+        ' Ajout espace et insécable entre abréviation chap. et lettre ou numéro
+    With Selection.Find
+        .ClearFormatting
+        .Text = "<(chap.)([0-9a-zA-Z])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1 \2"
+            .Highlight = False
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "<(chap.) ([0-9a-zA-Z])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = False
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+        
         ' Ajout espace et insécable entre abréviation éd. et lettre – FR
     With Selection.Find
         .ClearFormatting
@@ -261,6 +334,54 @@ Sub Clio_1_typographie()
         .Execute Replace:=wdReplaceAll
     End With
     
+        ' Ajout espace et insécable entre abréviation liv. et lettre ou numéro
+    With Selection.Find
+        .ClearFormatting
+        .Text = "<(liv.)([0-9a-zA-Z])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1 \2"
+            .Highlight = False
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "<(liv.) ([0-9a-zA-Z])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = False
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+        
+        ' Ajout espace et insécable entre abréviation part. et lettre ou numéro
+    With Selection.Find
+        .ClearFormatting
+        .Text = "<(part.)([0-9a-zA-Z])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1 \2"
+            .Highlight = False
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "<(part.) ([0-9a-zA-Z])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = False
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+        
         'Ajout espace et insécable entre abréviation vol et lettre ou  numéro
     With Selection.Find
         .ClearFormatting
@@ -367,7 +488,7 @@ Sub Clio_1_typographie()
         End With
         .Execute Replace:=wdReplaceAll
         .Replacement.ClearFormatting
-    End With   
+    End With
     With Selection.Find
         .ClearFormatting
         .Text = "op.cit."
@@ -565,9 +686,21 @@ End Sub
 Sub Clio_2_regnes()
 ' Permet d'ajouter une espace insécable entre le nom d'un souverain et son numéro dynastique
 ' Gère actuellement les souverains suivants (ordre alphabétique) : Catherine, Charles, Édouard,
-' Edward, François, Henri, Jean, Jules, Léon, Louis, Napoléon, Richard. 
+' Edward, François, Henri, Jean, Jules, Léon, Louis, Napoléon, Richard.
     Selection.Find.ClearFormatting
     Selection.Find.Replacement.ClearFormatting
+        'Albert
+            With Selection.Find
+            .ClearFormatting
+            .Text = "(Albert) ([IVX])"
+            .Wrap = wdFindContinue
+            .MatchWildcards = True
+            With .Replacement
+                .Text = "\1^s\2"
+                .Highlight = True
+                End With
+            .Execute Replace:=wdReplaceAll
+            End With
         'Catherine
             With Selection.Find
             .ClearFormatting
@@ -615,6 +748,7 @@ Sub Clio_2_regnes()
                 .Highlight = True
                 End With
             .Execute Replace:=wdReplaceAll
+            End With
         'François
             With Selection.Find
             .ClearFormatting
@@ -711,18 +845,104 @@ Sub Clio_2_regnes()
                 End With
             .Execute Replace:=wdReplaceAll
             End With
+        
+    'Surligner particule / article et patronyme
+        ' de/du + Nom
+            With Selection.Find
+            .ClearFormatting
+            .Text = "<d([eu]) ([A-ZÉ])"
+            .Wrap = wdFindContinue
+            .MatchWildcards = True
+            With .Replacement
+                .Text = ""
+                .Highlight = True
+                End With
+            .Execute Replace:=wdReplaceAll
+            End With
+
+        ' de La + Nom
+            With Selection.Find
+            .ClearFormatting
+            .Text = "de ([lL])a ([A-ZÉ])"
+            .Wrap = wdFindContinue
+            .MatchWildcards = True
+            With .Replacement
+                .Text = ""
+                .Highlight = True
+                End With
+            .Execute Replace:=wdReplaceAll
+            End With
+            
+        ' de L' + Nom
+            With Selection.Find
+            .ClearFormatting
+            .Text = "de ([lL])(?)([A-ZÉ])"
+            .Wrap = wdFindContinue
+            .MatchWildcards = True
+            With .Replacement
+                .Text = ""
+                .Highlight = True
+                End With
+            .Execute Replace:=wdReplaceAll
+            End With
+            
+            
+        ' La/Le + Nom
+            With Selection.Find
+            .ClearFormatting
+            .Text = "<L([ae]) ([A-ZÉ])"
+            .Wrap = wdFindContinue
+            .MatchWildcards = True
+            .MatchCase = True
+            With .Replacement
+                .Text = ""
+                .Highlight = True
+                End With
+            .Execute Replace:=wdReplaceAll
+            End With
+    
+    'Ajouter insécable entre particule étrangère et patronyme
+        
+        ' van + Nom
+            With Selection.Find
+            .ClearFormatting
+            .Text = "<([vV]an) ([A-ZÉ])"
+            .Wrap = wdFindContinue
+            .MatchWildcards = True
+            .MatchCase = False
+            With .Replacement
+                .Text = "\1^s\2"
+                .Highlight = True
+                End With
+            .Execute Replace:=wdReplaceAll
+            End With
+        
+        ' von + Nom
+            With Selection.Find
+            .ClearFormatting
+            .Text = "<([vV]on) ([A-ZÉ])"
+            .Wrap = wdFindContinue
+            .MatchWildcards = True
+            .MatchCase = False
+            With .Replacement
+                .Text = "\1^s\2"
+                .Highlight = True
+                End With
+            .Execute Replace:=wdReplaceAll
+            End With
+        
 
     'Nettoyer en partant
         With Selection.Find
             .ClearFormatting
             .Text = ""
             .MatchWildcards = False
+            .MatchCase = False
             With .Replacement
                 .Text = ""
                 .ClearFormatting
             End With
         End With
-
 End Sub
 
 Sub Clio_3_numbers()
@@ -742,6 +962,16 @@ Sub Clio_3_numbers()
             .MatchWildcards = False
         End With
         Selection.Find.Execute Replace:=wdReplaceAll
+            'Sauf les chiffres suivis d'une espaces insécable
+        With Selection.Find
+            .Text = "^#^s"
+            .MatchWildcards = False
+            .Replacement.Text = ""
+            .Forward = True
+            .Wrap = wdFindContinue
+            .Replacement.Highlight = False
+        End With
+        Selection.Find.Execute Replace:=wdReplaceAll
 
         ' Surligner les capitales utilisées pour les chiffres romains
         With Selection.Find
@@ -754,6 +984,31 @@ Sub Clio_3_numbers()
             End With
         .Execute Replace:=wdReplaceAll
         End With
+            ' Supprimer le surlignement sur ces capitales si suivies de minuscules (sauf e)
+            With Selection.Find
+                .Text = "([CDILMVX])([abcdfghijklmnopqrstuvwxyzàâéèêîôû]{1;})"
+                .Wrap = wdFindContinue
+                .MatchWildcards = True
+                With .Replacement
+                    .Text = ""
+                    .Highlight = False
+                End With
+            .Execute Replace:=wdReplaceAll
+            End With
+        
+        'Surligner les petites capitales
+        With Selection.Find
+            .Text = ""
+            .Wrap = wdFindContinue
+            .MatchWildcards = False
+            .Font.SmallCaps = True
+            With .Replacement
+                .Text = ""
+                .Highlight = True
+            End With
+        .Execute Replace:=wdReplaceAll
+        End With
+        
         
         'Nettoyer en partant
             With Selection.Find
