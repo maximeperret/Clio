@@ -136,6 +136,20 @@ Sub Clio_1_typographie()
                 .Execute Replace:=wdReplaceAll
             End With
                     
+        'Surligner le signe degré
+        With Selection.Find
+            .ClearFormatting
+            .Text = "°"
+            .Wrap = wdFindContinue
+            .MatchWildcards = False
+            With .Replacement
+                .Text = ""
+                .Highlight = True
+            End With
+            .Execute Replace:=wdReplaceAll
+        End With
+            
+        
         ' Surligner tirets cadratins et demi-cadratins
         With Selection.Find
             .ClearFormatting
@@ -553,7 +567,7 @@ Sub Clio_1_typographie()
         End With
         .Execute Replace:=wdReplaceAll
     End With
- 
+
         ' Remplacement n° en no sup + insécable
         With Selection.Find
             .ClearFormatting
@@ -644,7 +658,7 @@ Sub Clio_1_typographie()
             .Replacement.ClearFormatting
         End With
         
-        'Idem, Id., Ibidem et Ibid. en italiques
+        'Idem, Id., Ibidem et Ibid., infra, supra en italiques
          With Selection.Find
             .ClearFormatting
             .Text = "Ibidem"
@@ -701,6 +715,34 @@ Sub Clio_1_typographie()
             .Execute Replace:=wdReplaceAll
             .Replacement.ClearFormatting
         End With
+        With Selection.Find
+            .ClearFormatting
+            .Text = "supra"
+            .Wrap = wdFindContinue
+            .MatchWildcards = False
+            .MatchWholeWord = True
+            .Font.Italic = False
+            With .Replacement
+                .Text = ""
+                .Font.Italic = True
+            End With
+            .Execute Replace:=wdReplaceAll
+            .Replacement.ClearFormatting
+        End With
+        With Selection.Find
+            .ClearFormatting
+            .Text = "infra"
+            .Wrap = wdFindContinue
+            .MatchWildcards = False
+            .MatchWholeWord = True
+            .Font.Italic = False
+            With .Replacement
+                .Text = ""
+                .Font.Italic = True
+            End With
+            .Execute Replace:=wdReplaceAll
+            .Replacement.ClearFormatting
+        End With
            
     'Nettoyer en partant
         With Selection.Find
@@ -725,6 +767,18 @@ Sub Clio_2_regnes()
             With Selection.Find
             .ClearFormatting
             .Text = "(Albert) ([IVX])"
+            .Wrap = wdFindContinue
+            .MatchWildcards = True
+            With .Replacement
+                .Text = "\1^s\2"
+                .Highlight = True
+                End With
+            .Execute Replace:=wdReplaceAll
+            End With
+        'Alexandre
+            With Selection.Find
+            .ClearFormatting
+            .Text = "(Alexandre) ([IVX])"
             .Wrap = wdFindContinue
             .MatchWildcards = True
             With .Replacement
@@ -857,6 +911,18 @@ Sub Clio_2_regnes()
             With Selection.Find
             .ClearFormatting
             .Text = "(Napoléon) ([IVX])"
+            .Wrap = wdFindContinue
+            .MatchWildcards = True
+            With .Replacement
+                .Text = "\1^s\2"
+                .Highlight = True
+                End With
+            .Execute Replace:=wdReplaceAll
+            End With
+        'Philippe
+            With Selection.Find
+            .ClearFormatting
+            .Text = "(Philippe) ([IVX])"
             .Wrap = wdFindContinue
             .MatchWildcards = True
             With .Replacement
@@ -1017,6 +1083,31 @@ Sub Clio_3_numbers()
                 End With
             .Execute Replace:=wdReplaceAll
             End With
+            
+            'Supprimer le surlignement sur ces capitales suivies de e + autre lettre
+             With Selection.Find
+                .Text = "([CDILMVX])e([a-z]{1;})"
+                .Wrap = wdFindContinue
+                .MatchWildcards = True
+                With .Replacement
+                    .Text = ""
+                    .Highlight = False
+                End With
+            .Execute Replace:=wdReplaceAll
+            End With
+            
+            'Supprimer le surlignement sur ces capitales suivies d'une apostrophe
+             With Selection.Find
+                .Text = "([CDILMVX])(^0146)"
+                .Wrap = wdFindContinue
+                .MatchWildcards = True
+                With .Replacement
+                    .Text = ""
+                    .Highlight = False
+                End With
+            .Execute Replace:=wdReplaceAll
+            End With
+            
         
         'Surligner les petites capitales
         With Selection.Find
@@ -1215,6 +1306,25 @@ Sub Clio_5_stylage()
 			.MatchAllWordForms = False
 		End With
 		Selection.Find.Execute Replace:=wdReplaceAll
+    
+    'Stylage paragraphes Corps de texte > Normal
+        Selection.Find.ClearFormatting
+        Selection.Find.Style = ActiveDocument.Styles("Corps de texte")
+        Selection.Find.Replacement.ClearFormatting
+        Selection.Find.Replacement.Style = ActiveDocument.Styles("Normal")
+        With Selection.Find
+            .Text = ""
+            .Replacement.Text = ""
+            .Forward = True
+            .Wrap = wdFindContinue
+            .Format = True
+            .MatchCase = False
+            .MatchWholeWord = False
+            .MatchWildcards = False
+            .MatchSoundsLike = False
+            .MatchAllWordForms = False
+        End With
+        Selection.Find.Execute Replace:=wdReplaceAll
 		
 	' Surligner les guillements ouvrants
 			With Selection.Find
