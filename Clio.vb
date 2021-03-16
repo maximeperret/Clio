@@ -12,7 +12,7 @@ Sub Clio_1_typographie()
         .Wrap = wdFindContinue
         With .Replacement
             .ClearFormatting
-	        .Text = "^p"
+            .Text = "^p"
         End With
         .Execute Replace:=wdReplaceAll
     End With
@@ -91,7 +91,7 @@ Sub Clio_1_typographie()
         'Surligner les espaces insécables avant un caractère alphanumérique
     With Selection.Find
         .ClearFormatting
-        .Text = "^s([0-9a-zA-Z])"
+        .Text = "^s([0-9a-zA-Z\(\[])"
         .Wrap = wdFindContinue
         .MatchWildcards = True
         With .Replacement
@@ -102,7 +102,7 @@ Sub Clio_1_typographie()
     End With
             ' Sauf si précédé de guillemets français ouvrant
             With Selection.Find
-                .Text = "«^s([0-9a-zA-Z])"
+                .Text = "«^s([0-9a-zA-Z\(\[])"
                 .Wrap = wdFindContinue
                 .MatchWildcards = True
                 With .Replacement
@@ -135,7 +135,7 @@ Sub Clio_1_typographie()
                 End With
                 .Execute Replace:=wdReplaceAll
             End With
-                    
+                            
         'Surligner le signe degré
         With Selection.Find
             .ClearFormatting
@@ -148,13 +148,13 @@ Sub Clio_1_typographie()
             End With
             .Execute Replace:=wdReplaceAll
         End With
-            
         
         ' Surligner tirets cadratins et demi-cadratins
         With Selection.Find
             .ClearFormatting
             .Text = "([—–])"
             .Wrap = wdFindContinue
+            .MatchWildcards = True
             With .Replacement
                 .Text = "\1"
                 .Highlight = True
@@ -567,7 +567,7 @@ Sub Clio_1_typographie()
         End With
         .Execute Replace:=wdReplaceAll
     End With
-
+ 
         ' Remplacement n° en no sup + insécable
         With Selection.Find
             .ClearFormatting
@@ -658,7 +658,134 @@ Sub Clio_1_typographie()
             .Replacement.ClearFormatting
         End With
         
-        'Idem, Id., Ibidem et Ibid., infra, supra en italiques
+        ' Remplacement f° en fo sup
+        With Selection.Find
+            .ClearFormatting
+            .Text = "f°"
+            .Wrap = wdFindContinue
+            .MatchWildcards = False
+            With .Replacement
+                .Text = "fo"
+                .Highlight = True
+            End With
+            .Execute Replace:=wdReplaceAll
+        End With
+        With Selection.Find
+            .ClearFormatting
+            .Text = "fo"
+            .Wrap = wdFindContinue
+            .MatchWildcards = False
+            .Highlight = True
+            With .Replacement
+                .Text = ""
+                .Highlight = True
+                .Font.Superscript = True
+            End With
+            .Execute Replace:=wdReplaceAll
+            .Replacement.ClearFormatting
+        End With
+        With Selection.Find
+            .ClearFormatting
+            .Text = "f"
+            .Wrap = wdFindContinue
+            .MatchWildcards = False
+            .Highlight = True
+            .Font.Superscript = True
+            With .Replacement
+                .Text = "f"
+                .Highlight = True
+                .Font.Superscript = False
+            End With
+            .Execute Replace:=wdReplaceAll
+            .Replacement.ClearFormatting
+        End With
+        
+        ' Remplacement r° en ro sup
+        With Selection.Find
+            .ClearFormatting
+            .Text = "r°"
+            .Wrap = wdFindContinue
+            .MatchWildcards = False
+            With .Replacement
+                .Text = "vo"
+                .Highlight = True
+            End With
+            .Execute Replace:=wdReplaceAll
+        End With
+        With Selection.Find
+            .ClearFormatting
+            .Text = "ro"
+            .Wrap = wdFindContinue
+            .MatchWildcards = False
+            .Highlight = True
+            With .Replacement
+                .Text = ""
+                .Highlight = True
+                .Font.Superscript = True
+            End With
+            .Execute Replace:=wdReplaceAll
+            .Replacement.ClearFormatting
+        End With
+        With Selection.Find
+            .ClearFormatting
+            .Text = "r"
+            .Wrap = wdFindContinue
+            .MatchWildcards = False
+            .Highlight = True
+            .Font.Superscript = True
+            With .Replacement
+                .Text = "r"
+                .Highlight = True
+                .Font.Superscript = False
+            End With
+            .Execute Replace:=wdReplaceAll
+            .Replacement.ClearFormatting
+        End With
+        
+        ' Remplacement v° en vo sup
+        With Selection.Find
+            .ClearFormatting
+            .Text = "v°"
+            .Wrap = wdFindContinue
+            .MatchWildcards = False
+            With .Replacement
+                .Text = "vo"
+                .Highlight = True
+            End With
+            .Execute Replace:=wdReplaceAll
+        End With
+        With Selection.Find
+            .ClearFormatting
+            .Text = "vo"
+            .Wrap = wdFindContinue
+            .MatchWildcards = False
+            .Highlight = True
+            With .Replacement
+                .Text = ""
+                .Highlight = True
+                .Font.Superscript = True
+            End With
+            .Execute Replace:=wdReplaceAll
+            .Replacement.ClearFormatting
+        End With
+        With Selection.Find
+            .ClearFormatting
+            .Text = "v"
+            .Wrap = wdFindContinue
+            .MatchWildcards = False
+            .Highlight = True
+            .Font.Superscript = True
+            With .Replacement
+                .Text = "v"
+                .Highlight = True
+                .Font.Superscript = False
+            End With
+            .Execute Replace:=wdReplaceAll
+            .Replacement.ClearFormatting
+        End With
+        
+        
+        'Idem, Id., Ibidem et Ibid. en italiques
          With Selection.Find
             .ClearFormatting
             .Text = "Ibidem"
@@ -948,7 +1075,7 @@ Sub Clio_2_regnes()
         ' de/du + Nom
             With Selection.Find
             .ClearFormatting
-            .Text = "<d([eu]) ([A-ZÉ])"
+            .Text = "<([dD])([eu]) ([A-ZÉ])"
             .Wrap = wdFindContinue
             .MatchWildcards = True
             With .Replacement
@@ -1083,9 +1210,8 @@ Sub Clio_3_numbers()
                 End With
             .Execute Replace:=wdReplaceAll
             End With
-            
             'Supprimer le surlignement sur ces capitales suivies de e + autre lettre
-             With Selection.Find
+            With Selection.Find
                 .Text = "([CDILMVX])e([a-z]{1;})"
                 .Wrap = wdFindContinue
                 .MatchWildcards = True
@@ -1107,7 +1233,6 @@ Sub Clio_3_numbers()
                 End With
             .Execute Replace:=wdReplaceAll
             End With
-            
         
         'Surligner les petites capitales
         With Selection.Find
@@ -1137,54 +1262,87 @@ End Sub
 Sub Clio_4_createstyles()
 'Permet de créer des styles de caractère dans le document pour remplacer la mise en forme directe
 
-	' Italique
-	Set myStyle = ActiveDocument.Styles.Add(Name:="_italic", _ 
-	 Type:=wdStyleTypeCharacter) 
-	With myStyle.Font 
-	 .Italic = True
-	 .Color = RGB(255, 147, 0)
-	End With
-	
-	' Smallcaps-i
-	Set myStyle = ActiveDocument.Styles.Add(Name:="_smallcaps-i", _ 
-	 Type:=wdStyleTypeCharacter) 
-	With myStyle.Font 
-	 .Italic = True
-	 .Smallcaps = True
-	 .Color = RGB(255, 147, 0)
-	End With 
+    ' Bold
+    Set myStyle = ActiveDocument.Styles.Add(Name:="_bold", _
+     Type:=wdStyleTypeCharacter)
+    With myStyle.Font
+     .Bold = True
+     .Color = RGB(255, 147, 0)
+    End With
+    
+    ' Italique
+    Set myStyle = ActiveDocument.Styles.Add(Name:="_italic", _
+     Type:=wdStyleTypeCharacter)
+    With myStyle.Font
+     .Italic = True
+     .Color = RGB(255, 147, 0)
+    End With
+    
+    ' Smallcaps-i
+    Set myStyle = ActiveDocument.Styles.Add(Name:="_smallcaps-i", _
+     Type:=wdStyleTypeCharacter)
+    With myStyle.Font
+     .Italic = True
+     .SmallCaps = True
+     .Color = RGB(255, 147, 0)
+    End With
 
-	' Smallcaps
-	Set myStyle = ActiveDocument.Styles.Add(Name:="_smallcaps", _ 
-	 Type:=wdStyleTypeCharacter) 
-	With myStyle.Font 
-	 .Smallcaps = True
-	 .Color = RGB(255, 147, 0)
-	End With 
+    ' Smallcaps
+    Set myStyle = ActiveDocument.Styles.Add(Name:="_smallcaps", _
+     Type:=wdStyleTypeCharacter)
+    With myStyle.Font
+     .SmallCaps = True
+     .Color = RGB(255, 147, 0)
+    End With
 
-	' Sup
-	Set myStyle = ActiveDocument.Styles.Add(Name:="_sup", _ 
-	 Type:=wdStyleTypeCharacter) 
-	With myStyle.Font 
-	 .Superscript = True
-	 .Color = RGB(255, 147, 0)
-	End With 
+    ' Sup
+    Set myStyle = ActiveDocument.Styles.Add(Name:="_sup", _
+     Type:=wdStyleTypeCharacter)
+    With myStyle.Font
+     .Superscript = True
+     .Color = RGB(255, 147, 0)
+    End With
 
-	' Sup-i
-	Set myStyle = ActiveDocument.Styles.Add(Name:="_sup-i", _ 
-	 Type:=wdStyleTypeCharacter) 
-	With myStyle.Font 
-	 .Italic = True
-	 .Superscript = True
-	 .Color = RGB(255, 147, 0)
-	End With 
+    ' Sup-i
+    Set myStyle = ActiveDocument.Styles.Add(Name:="_sup-i", _
+     Type:=wdStyleTypeCharacter)
+    With myStyle.Font
+     .Italic = True
+     .Superscript = True
+     .Color = RGB(255, 147, 0)
+    End With
 End Sub
 
 Sub Clio_5_stylage()
 ' Permet de remplacer la mise en forme directe du document par un stylage de caractères.
 ' Nécessite ensuite de passer en revue le document pour repérer les éléments qui ne devraient pas avoir de mise en forme particulière.
 
-   'Stylage caractères italique
+   'Stylage caractères bold
+    Selection.Find.ClearFormatting
+    With Selection.Find.Font
+        .Bold = True
+        .Italic = False
+        .SmallCaps = False
+        .Superscript = False
+        .Subscript = False
+    End With
+    Selection.Find.Replacement.ClearFormatting
+    Selection.Find.Replacement.Style = ActiveDocument.Styles("_bold")
+    With Selection.Find
+        .Text = ""
+        .Replacement.Text = ""
+        .Forward = True
+        .Wrap = wdFindContinue
+        .Format = True
+        .MatchCase = False
+        .MatchWholeWord = False
+        .MatchWildcards = False
+        .MatchSoundsLike = False
+        .MatchAllWordForms = False
+    End With
+    Selection.Find.Execute Replace:=wdReplaceAll
+    
+    'Stylage caractères italique
     Selection.Find.ClearFormatting
     With Selection.Find.Font
         .Italic = True
@@ -1208,104 +1366,104 @@ Sub Clio_5_stylage()
     End With
     Selection.Find.Execute Replace:=wdReplaceAll
     
-	'Stylage caractères smallcaps-i
-		Selection.Find.ClearFormatting
-		With Selection.Find.Font
-			.Italic = True
-			.SmallCaps = True
-			.Superscript = False
-			.Subscript = False
-		End With
-		Selection.Find.Replacement.ClearFormatting
-		Selection.Find.Replacement.Style = ActiveDocument.Styles("_smallcaps-i")
-		With Selection.Find
-			.Text = ""
-			.Replacement.Text = ""
-			.Forward = True
-			.Wrap = wdFindContinue
-			.Format = True
-			.MatchCase = False
-			.MatchWholeWord = False
-			.MatchWildcards = False
-			.MatchSoundsLike = False
-			.MatchAllWordForms = False
-		End With
-		Selection.Find.Execute Replace:=wdReplaceAll
-	
-	'Stylage caractères smallcaps
-		Selection.Find.ClearFormatting
-		With Selection.Find.Font
-			.Italic = False
-			.SmallCaps = True
-			.AllCaps = False
-			.Superscript = False
-			.Subscript = False
-		End With
-		Selection.Find.Replacement.ClearFormatting
-		Selection.Find.Replacement.Style = ActiveDocument.Styles("_smallcaps")
-		With Selection.Find
-			.Text = ""
-			.Replacement.Text = ""
-			.Forward = True
-			.Wrap = wdFindContinue
-			.Format = True
-			.MatchCase = False
-			.MatchWholeWord = False
-			.MatchWildcards = False
-			.MatchSoundsLike = False
-			.MatchAllWordForms = False
-		End With
-		Selection.Find.Execute Replace:=wdReplaceAll
-	
-	'Stylage caractères sup
-		Selection.Find.ClearFormatting
-		With Selection.Find.Font
-			.Italic = False
-			.SmallCaps = False
-			.AllCaps = False
-			.Superscript = True
-			.Subscript = False
-		End With
-		Selection.Find.Replacement.ClearFormatting
-		Selection.Find.Replacement.Style = ActiveDocument.Styles("_sup")
-		With Selection.Find
-			.Text = ""
-			.Replacement.Text = ""
-			.Forward = True
-			.Wrap = wdFindContinue
-			.Format = True
-			.MatchCase = False
-			.MatchWholeWord = False
-			.MatchWildcards = False
-			.MatchSoundsLike = False
-			.MatchAllWordForms = False
-		End With
-		Selection.Find.Execute Replace:=wdReplaceAll
-	
-	'Stylage caractères sup-i
-		Selection.Find.ClearFormatting
-		With Selection.Find.Font
-			.Italic = True
-			.SmallCaps = False
-			.AllCaps = False
-			.Superscript = True
-			.Subscript = False
-		End With
-		Selection.Find.Replacement.ClearFormatting
-		Selection.Find.Replacement.Style = ActiveDocument.Styles("_sup-i")
-		With Selection.Find
-			.Text = ""
-			.Replacement.Text = ""
-			.Forward = True
-			.Wrap = wdFindContinue
-			.Format = True
-			.MatchCase = False
-			.MatchWholeWord = False
-			.MatchWildcards = False
-			.MatchSoundsLike = False
-			.MatchAllWordForms = False
-		End With
-		Selection.Find.Execute Replace:=wdReplaceAll
+    'Stylage caractères smallcaps-i
+        Selection.Find.ClearFormatting
+        With Selection.Find.Font
+            .Italic = True
+            .SmallCaps = True
+            .Superscript = False
+            .Subscript = False
+        End With
+        Selection.Find.Replacement.ClearFormatting
+        Selection.Find.Replacement.Style = ActiveDocument.Styles("_smallcaps-i")
+        With Selection.Find
+            .Text = ""
+            .Replacement.Text = ""
+            .Forward = True
+            .Wrap = wdFindContinue
+            .Format = True
+            .MatchCase = False
+            .MatchWholeWord = False
+            .MatchWildcards = False
+            .MatchSoundsLike = False
+            .MatchAllWordForms = False
+        End With
+        Selection.Find.Execute Replace:=wdReplaceAll
+    
+    'Stylage caractères smallcaps
+        Selection.Find.ClearFormatting
+        With Selection.Find.Font
+            .Italic = False
+            .SmallCaps = True
+            .AllCaps = False
+            .Superscript = False
+            .Subscript = False
+        End With
+        Selection.Find.Replacement.ClearFormatting
+        Selection.Find.Replacement.Style = ActiveDocument.Styles("_smallcaps")
+        With Selection.Find
+            .Text = ""
+            .Replacement.Text = ""
+            .Forward = True
+            .Wrap = wdFindContinue
+            .Format = True
+            .MatchCase = False
+            .MatchWholeWord = False
+            .MatchWildcards = False
+            .MatchSoundsLike = False
+            .MatchAllWordForms = False
+        End With
+        Selection.Find.Execute Replace:=wdReplaceAll
+    
+    'Stylage caractères sup
+        Selection.Find.ClearFormatting
+        With Selection.Find.Font
+            .Italic = False
+            .SmallCaps = False
+            .AllCaps = False
+            .Superscript = True
+            .Subscript = False
+        End With
+        Selection.Find.Replacement.ClearFormatting
+        Selection.Find.Replacement.Style = ActiveDocument.Styles("_sup")
+        With Selection.Find
+            .Text = ""
+            .Replacement.Text = ""
+            .Forward = True
+            .Wrap = wdFindContinue
+            .Format = True
+            .MatchCase = False
+            .MatchWholeWord = False
+            .MatchWildcards = False
+            .MatchSoundsLike = False
+            .MatchAllWordForms = False
+        End With
+        Selection.Find.Execute Replace:=wdReplaceAll
+    
+    'Stylage caractères sup-i
+        Selection.Find.ClearFormatting
+        With Selection.Find.Font
+            .Italic = True
+            .SmallCaps = False
+            .AllCaps = False
+            .Superscript = True
+            .Subscript = False
+        End With
+        Selection.Find.Replacement.ClearFormatting
+        Selection.Find.Replacement.Style = ActiveDocument.Styles("_sup-i")
+        With Selection.Find
+            .Text = ""
+            .Replacement.Text = ""
+            .Forward = True
+            .Wrap = wdFindContinue
+            .Format = True
+            .MatchCase = False
+            .MatchWholeWord = False
+            .MatchWildcards = False
+            .MatchSoundsLike = False
+            .MatchAllWordForms = False
+        End With
+        Selection.Find.Execute Replace:=wdReplaceAll
     
     'Stylage paragraphes Corps de texte > Normal
         Selection.Find.ClearFormatting
@@ -1325,41 +1483,41 @@ Sub Clio_5_stylage()
             .MatchAllWordForms = False
         End With
         Selection.Find.Execute Replace:=wdReplaceAll
-		
-	' Surligner les guillements ouvrants
-			With Selection.Find
-				.ClearFormatting
-				.Forward = True
-				.Wrap = wdFindContinue
-				.Text = "(«)^s"
-				.MatchWildcards = True
-				With .Replacement
-					.ClearFormatting
-					.Text = ""
-					.Highlight = True
-				End With
-			Selection.Find.Execute Replace:=wdReplaceAll
-			End With
-			
-	' Surligner les guillements fermants
-			With Selection.Find
-				.ClearFormatting
-				.Forward = True
-				.Wrap = wdFindContinue
-				.Text = "^s(»)"
-				.MatchWildcards = True
-				With .Replacement
-					.ClearFormatting
-					.Text = ""
-					.Highlight = True
-				End With
-			Selection.Find.Execute Replace:=wdReplaceAll
-			End With
-	' Nettoyer en partant
-		With Selection.Find
-		.ClearFormatting
-		.Text = ""
-		.MatchWildcards = False
+        
+    ' Surligner les guillements ouvrants
+            With Selection.Find
+                .ClearFormatting
+                .Forward = True
+                .Wrap = wdFindContinue
+                .Text = "(«)^s"
+                .MatchWildcards = True
+                With .Replacement
+                    .ClearFormatting
+                    .Text = ""
+                    .Highlight = True
+                End With
+            Selection.Find.Execute Replace:=wdReplaceAll
+            End With
+            
+    ' Surligner les guillements fermants
+            With Selection.Find
+                .ClearFormatting
+                .Forward = True
+                .Wrap = wdFindContinue
+                .Text = "^s(»)"
+                .MatchWildcards = True
+                With .Replacement
+                    .ClearFormatting
+                    .Text = ""
+                    .Highlight = True
+                End With
+            Selection.Find.Execute Replace:=wdReplaceAll
+            End With
+    ' Nettoyer en partant
+        With Selection.Find
+        .ClearFormatting
+        .Text = ""
+        .MatchWildcards = False
             With .Replacement
                 .Text = ""
                 .ClearFormatting
@@ -1369,20 +1527,20 @@ End Sub
 
 Sub Clio_6_nettoyage()
 ' Pour nettoyer entre chaque macro
-	' Supprime le surlignage dans le document
-		Selection.Find.ClearFormatting
-		Selection.Find.Highlight = True
-		Selection.Find.Replacement.ClearFormatting
-		Selection.Find.Replacement.Highlight = False
-		With Selection.Find
-			.Text = ""
-			.MatchWildcards = False
-			.Replacement.Text = ""
-			.Wrap = wdFindContinue
-			.MatchWholeWord = False
-			.MatchCase = False
-		End With
-		Selection.Find.Execute Replace:=wdReplaceAll
+    ' Supprime le surlignage dans le document
+        Selection.Find.ClearFormatting
+        Selection.Find.Highlight = True
+        Selection.Find.Replacement.ClearFormatting
+        Selection.Find.Replacement.Highlight = False
+        With Selection.Find
+            .Text = ""
+            .MatchWildcards = False
+            .Replacement.Text = ""
+            .Wrap = wdFindContinue
+            .MatchWholeWord = False
+            .MatchCase = False
+        End With
+        Selection.Find.Execute Replace:=wdReplaceAll
 
     'Nettoyer en partant
         With Selection.Find
@@ -1395,4 +1553,6 @@ Sub Clio_6_nettoyage()
             End With
         End With
 End Sub
+
+
 
