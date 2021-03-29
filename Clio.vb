@@ -75,6 +75,19 @@ Sub Clio_1_typographie()
     End With
     
     ' Alerter sur de potentielles erreurs
+        ' Surligner deux apostrophes au lieu de guillemets anglais
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(^039^039)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = ""
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    
         ' Surligner espaces entre apostrophe et mot suivant
     With Selection.Find
         .ClearFormatting
@@ -788,9 +801,9 @@ Sub Clio_1_typographie()
         'Idem, Id., Ibidem et Ibid. en italiques
          With Selection.Find
             .ClearFormatting
-            .Text = "Ibidem"
+            .Text = "<([Ii]bidem)"
             .Wrap = wdFindContinue
-            .MatchWildcards = False
+            .MatchWildcards = True
             .MatchWholeWord = True
             .Font.Italic = False
             With .Replacement
@@ -802,9 +815,9 @@ Sub Clio_1_typographie()
         End With
         With Selection.Find
             .ClearFormatting
-            .Text = "Ibid."
+            .Text = "<([Ii]bid.)"
             .Wrap = wdFindContinue
-            .MatchWildcards = False
+            .MatchWildcards = True
             .MatchWholeWord = True
             .Font.Italic = False
             With .Replacement
@@ -816,10 +829,10 @@ Sub Clio_1_typographie()
         End With
         With Selection.Find
             .ClearFormatting
-            .Text = "Idem"
+            .Text = "<([Ii]dem)"
             .Wrap = wdFindContinue
             .MatchWholeWord = True
-            .MatchWildcards = False
+            .MatchWildcards = True
             .Font.Italic = False
             With .Replacement
                 .Text = ""
@@ -830,10 +843,10 @@ Sub Clio_1_typographie()
         End With
                 With Selection.Find
             .ClearFormatting
-            .Text = "Id."
+            .Text = "<([Ii]d.)"
             .Wrap = wdFindContinue
             .MatchWholeWord = True
-            .MatchWildcards = False
+            .MatchWildcards = True
             .Font.Italic = False
             With .Replacement
                 .Text = ""
@@ -1311,6 +1324,15 @@ Sub Clio_4_createstyles()
      .Superscript = True
      .Color = RGB(255, 147, 0)
     End With
+    
+    ' Underline
+    Set myStyle = ActiveDocument.Styles.Add(Name:="_underline", _
+     Type:=wdStyleTypeCharacter)
+    With myStyle.Font
+     .Underline = True
+     .Color = RGB(255, 147, 0)
+    End With
+    
 End Sub
 
 Sub Clio_5_stylage()
@@ -1464,6 +1486,32 @@ Sub Clio_5_stylage()
             .MatchAllWordForms = False
         End With
         Selection.Find.Execute Replace:=wdReplaceAll
+        
+        'Stylage caractères underline
+    Selection.Find.ClearFormatting
+    With Selection.Find.Font
+        .Bold = False
+        .Italic = False
+        .Underline = True
+        .SmallCaps = False
+        .Superscript = False
+        .Subscript = False
+    End With
+    Selection.Find.Replacement.ClearFormatting
+    Selection.Find.Replacement.Style = ActiveDocument.Styles("_underline")
+    With Selection.Find
+        .Text = ""
+        .Replacement.Text = ""
+        .Forward = True
+        .Wrap = wdFindContinue
+        .Format = True
+        .MatchCase = False
+        .MatchWholeWord = False
+        .MatchWildcards = False
+        .MatchSoundsLike = False
+        .MatchAllWordForms = False
+    End With
+    Selection.Find.Execute Replace:=wdReplaceAll
     
     'Stylage paragraphes Corps de texte > Normal
         Selection.Find.ClearFormatting
@@ -1485,34 +1533,35 @@ Sub Clio_5_stylage()
         Selection.Find.Execute Replace:=wdReplaceAll
         
     ' Surligner les guillements ouvrants
-            With Selection.Find
-                .ClearFormatting
-                .Forward = True
-                .Wrap = wdFindContinue
-                .Text = "(«)^s"
-                .MatchWildcards = True
-                With .Replacement
-                    .ClearFormatting
-                    .Text = ""
-                    .Highlight = True
-                End With
-            Selection.Find.Execute Replace:=wdReplaceAll
-            End With
+            'With Selection.Find
+                '.ClearFormatting
+                '.Forward = True
+                '.Wrap = wdFindContinue
+                '.Text = "(«)^s"
+                '.MatchWildcards = True
+                'With .Replacement
+                    '.ClearFormatting
+                    '.Text = ""
+                    '.Highlight = True
+                'End With
+            'Selection.Find.Execute Replace:=wdReplaceAll
+            'End With
             
     ' Surligner les guillements fermants
-            With Selection.Find
-                .ClearFormatting
-                .Forward = True
-                .Wrap = wdFindContinue
-                .Text = "^s(»)"
-                .MatchWildcards = True
-                With .Replacement
-                    .ClearFormatting
-                    .Text = ""
-                    .Highlight = True
-                End With
-            Selection.Find.Execute Replace:=wdReplaceAll
-            End With
+            'With Selection.Find
+                '.ClearFormatting
+                '.Forward = True
+                '.Wrap = wdFindContinue
+                '.Text = "^s(»)"
+                '.MatchWildcards = True
+                'With .Replacement
+                    '.ClearFormatting
+                    '.Text = ""
+                    '.Highlight = True
+                'End With
+            'Selection.Find.Execute Replace:=wdReplaceAll
+            'End With
+
     ' Nettoyer en partant
         With Selection.Find
         .ClearFormatting
