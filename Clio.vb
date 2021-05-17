@@ -78,7 +78,7 @@ Sub Clio_1_typographie()
         ' Surligner deux apostrophes au lieu de guillemets anglais
     With Selection.Find
         .ClearFormatting
-        .Text = "(^039^039)"
+        .Text = "''"
         .Wrap = wdFindContinue
         .MatchWildcards = True
         With .Replacement
@@ -316,6 +316,19 @@ Sub Clio_1_typographie()
         .Execute Replace:=wdReplaceAll
     End With
         
+        ' Ajout espace et insécable entre abréviation coll. et lettre ou numéro
+    With Selection.Find
+        .ClearFormatting
+        .Text = "<(coll.) "
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+        
         ' Ajout espace et insécable entre abréviation éd. et lettre – FR
     With Selection.Find
         .ClearFormatting
@@ -470,7 +483,7 @@ Sub Clio_1_typographie()
         With .Replacement
             .Text = "e^ssiècle"
             .Font.Superscript = True
-            .Highlight = False
+            .Highlight = True
         End With
         .Execute Replace:=wdReplaceAll
     End With
@@ -483,7 +496,7 @@ Sub Clio_1_typographie()
         With .Replacement
             .Text = ""
             .Font.Superscript = False
-            .Highlight = False
+            .Highlight = True
         End With
         .Execute Replace:=wdReplaceAll
         .Replacement.ClearFormatting
@@ -720,7 +733,7 @@ Sub Clio_1_typographie()
             .Wrap = wdFindContinue
             .MatchWildcards = False
             With .Replacement
-                .Text = "vo"
+                .Text = "ro"
                 .Highlight = True
             End With
             .Execute Replace:=wdReplaceAll
