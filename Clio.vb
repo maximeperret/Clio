@@ -910,10 +910,10 @@ Sub Clio_1_typographie()
         End With
 End Sub
 
-Sub Clio_2_regnes()
+Sub Clio_2_nomspropres()
 ' Permet d'ajouter une espace insécable entre le nom d'un souverain et son numéro dynastique
 ' Gère actuellement les souverains suivants (ordre alphabétique) : Catherine, Charles, Édouard,
-' Edward, François, Henri, Jean, Jules, Léon, Louis, Napoléon, Richard.
+' Edward, François, Henri, Innocent, Jean, Jules, Léon, Louis, Napoléon, Richard.
     Selection.Find.ClearFormatting
     Selection.Find.Replacement.ClearFormatting
         'Albert
@@ -1004,6 +1004,18 @@ Sub Clio_2_regnes()
             With Selection.Find
             .ClearFormatting
             .Text = "(Henri) ([IVX])"
+            .Wrap = wdFindContinue
+            .MatchWildcards = True
+            With .Replacement
+                .Text = "\1^s\2"
+                .Highlight = True
+                End With
+            .Execute Replace:=wdReplaceAll
+            End With
+        'Henri
+            With Selection.Find
+            .ClearFormatting
+            .Text = "(Innocent) ([IVX])"
             .Wrap = wdFindContinue
             .MatchWildcards = True
             With .Replacement
@@ -1195,8 +1207,562 @@ Sub Clio_2_regnes()
             End With
         End With
 End Sub
-
-Sub Clio_3_numbers()
+Sub Clio_3_dates()
+' espacement dates moi année
+    ' janvier
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(janvier)^s([0-9])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1 \2"
+            .Highlight = False
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([0-9]) (janvier)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(er) (janvier)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([a-z]) (janvier) ([0-9])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        .Highlight = False
+        With .Replacement
+            .Text = "\1 \2^s\3"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    ' février
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(février)^s([0-9])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1 \2"
+            .Highlight = False
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([0-9]) (février)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(er) (février)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([a-z]) (février) ([0-9])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        .Highlight = False
+        With .Replacement
+            .Text = "\1 \2^s\3"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    ' mars
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(mars)^s([0-9])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1 \2"
+            .Highlight = False
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([0-9]) (mars)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(er) (mars)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([a-z]) (mars) ([0-9])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        .Highlight = False
+        With .Replacement
+            .Text = "\1 \2^s\3"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    ' avril
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(avril)^s([0-9])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1 \2"
+            .Highlight = False
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([0-9]) (avril)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(er) (avril)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([a-z]) (avril) ([0-9])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        .Highlight = False
+        With .Replacement
+            .Text = "\1 \2^s\3"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    ' mai
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(mai)^s([0-9])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1 \2"
+            .Highlight = False
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([0-9]) (mai)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(er) (mai)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([a-z]) (mai) ([0-9])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        .Highlight = False
+        With .Replacement
+            .Text = "\1 \2^s\3"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    ' juin
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(juin)^s([0-9])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1 \2"
+            .Highlight = False
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([0-9]) (juin)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(er) (juin)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([a-z]) (juin) ([0-9])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        .Highlight = False
+        With .Replacement
+            .Text = "\1 \2^s\3"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    ' juillet
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(juillet)^s([0-9])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1 \2"
+            .Highlight = False
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([0-9]) (juillet)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(er) (juillet)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([a-z]) (juillet) ([0-9])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        .Highlight = False
+        With .Replacement
+            .Text = "\1 \2^s\3"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    ' août
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(août)^s([0-9])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1 \2"
+            .Highlight = False
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([0-9]) (août)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(er) (août)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([a-z]) (août) ([0-9])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        .Highlight = False
+        With .Replacement
+            .Text = "\1 \2^s\3"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    ' septembre
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(septembre)^s([0-9])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1 \2"
+            .Highlight = False
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([0-9]) (septembre)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(er) (septembre)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([a-z]) (septembre) ([0-9])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        .Highlight = False
+        With .Replacement
+            .Text = "\1 \2^s\3"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    ' octobre
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(octobre)^s([0-9])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1 \2"
+            .Highlight = False
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([0-9]) (octobre)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(er) (octobre)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([a-z]) (octobre) ([0-9])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        .Highlight = False
+        With .Replacement
+            .Text = "\1 \2^s\3"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    ' novembre
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(novembre)^s([0-9])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1 \2"
+            .Highlight = False
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([0-9]) (novembre)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(er) (novembre)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([a-z]) (novembre) ([0-9])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        .Highlight = False
+        With .Replacement
+            .Text = "\1 \2^s\3"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    ' décembre
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(décembre)^s([0-9])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1 \2"
+            .Highlight = False
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([0-9]) (décembre)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "(er) (décembre)"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        With .Replacement
+            .Text = "\1^s\2"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+    With Selection.Find
+        .ClearFormatting
+        .Text = "([a-z]) (décembre) ([0-9])"
+        .Wrap = wdFindContinue
+        .MatchWildcards = True
+        .Highlight = False
+        With .Replacement
+            .Text = "\1 \2^s\3"
+            .Highlight = True
+        End With
+        .Execute Replace:=wdReplaceAll
+    End With
+End Sub
+Sub Clio_4_numbers()
 ' Permet de surligner tous les nombres du document pour faciliter l'ajout manuel d'insécables :
 ' nombres longs, dates, etc.
     Selection.Find.ClearFormatting
@@ -1285,7 +1851,8 @@ Sub Clio_3_numbers()
             End With
 End Sub
 
-Sub Clio_4_createstyles()
+
+Sub Clio_5_createstyles()
 'Permet de créer des styles de caractère dans le document pour remplacer la mise en forme directe
 
     ' Bold
@@ -1348,7 +1915,7 @@ Sub Clio_4_createstyles()
     
 End Sub
 
-Sub Clio_5_stylage()
+Sub Clio_6_stylage()
 ' Permet de remplacer la mise en forme directe du document par un stylage de caractères.
 ' Nécessite ensuite de passer en revue le document pour repérer les éléments qui ne devraient pas avoir de mise en forme particulière.
 
@@ -1587,7 +2154,7 @@ Sub Clio_5_stylage()
          End With
 End Sub
 
-Sub Clio_6_nettoyage()
+Sub Clio_7_nettoyage()
 ' Pour nettoyer entre chaque macro
     ' Supprime le surlignage dans le document
         Selection.Find.ClearFormatting
